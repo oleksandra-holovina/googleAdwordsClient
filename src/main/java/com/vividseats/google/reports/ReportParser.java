@@ -13,7 +13,8 @@ public class ReportParser {
 
     public void parseReport(String reportFile) throws IOException {
         try (BufferedReader br = new BufferedReader(new InputStreamReader(new GZIPInputStream(new FileInputStream(reportFile))))) {
-            List<GoogleKeywordStat> treeParser = new CsvToBeanBuilder(br).withType(GoogleKeywordStat.class)
+            List<GoogleKeywordStat> treeParser = new CsvToBeanBuilder<GoogleKeywordStat>(br)
+                    .withType(GoogleKeywordStat.class)
                     .build()
                     .parse();
 
