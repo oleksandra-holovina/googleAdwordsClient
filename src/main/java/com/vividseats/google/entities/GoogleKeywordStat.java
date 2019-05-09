@@ -1,48 +1,29 @@
 package com.vividseats.google.entities;
 
 import java.util.Date;
-import com.opencsv.bean.CsvBindByName;
 
 public class GoogleKeywordStat {
-    @CsvBindByName(column = "Ad group ID")
     private long adgroupId;
-    @CsvBindByName(column = "Keyword ID")
     private long keywordId;
-    @CsvBindByName(column = "Keyword")
     private String keyword;
-    @CsvBindByName(column = "Max. CPC")
     private double maxCpc;
-    @CsvBindByName(column = "Impressions")
     private double imps;
-    @CsvBindByName(column = "Clicks")
     private double clicks;
     private double ctr;
-    @CsvBindByName(column = "Cost")
     private double cost;
-    @CsvBindByName(column = "Avg. position")
     private double position;
     private double convRate;
     private Date reportDate;
     private double lastPosition;
     private int lastImps;
-    @CsvBindByName(column = "Network (with search partners)")
     private String network;
-    @CsvBindByName(column = "First page CPC")
     private double firstPageCpc;
-    @CsvBindByName(column = "Conversions")
-    private double salesCount;
-    @CsvBindByName(column = "Total conv. value")
+    private int salesCount;
     private double revenue;
-    @CsvBindByName(column = "Quality score")
-    private String qualityScore;
-//    private int qualityScore;
-    @CsvBindByName(column = "Device")
-    private String device;
-//    private boolean mobile;
+    private int qualityScore;
+    private boolean mobile;
 
     private int hourOfDay;
-
-
     /**
      * Creates a new instance of GoogleKeywordStat
      */
@@ -51,7 +32,7 @@ public class GoogleKeywordStat {
 
     public static GoogleKeywordStat copy(GoogleKeywordStat stat) {
         GoogleKeywordStat copied = new GoogleKeywordStat();
-        copied.setAdgroupId(stat.getAdgroupId());
+        copied.setAdgroupId(stat.getAdGroupId());
         copied.setKeywordId(stat.getKeywordId());
         copied.setKeyword(stat.getKeyword());
         copied.setImps(stat.getImps());
@@ -64,11 +45,11 @@ public class GoogleKeywordStat {
         copied.setRevenue(stat.getRevenue());
         copied.setNetwork(stat.getNetwork());
         copied.setQualityScore(stat.getQualityScore());
-//        copied.setMobile(stat.isMobile());
+        copied.setMobile(stat.isMobile());
         return copied;
     }
 
-    public long getAdgroupId() {
+    public long getAdGroupId() {
         return adgroupId;
     }
 
@@ -250,65 +231,48 @@ public class GoogleKeywordStat {
         this.network = network;
     }
 
-//    /**
-//     * @return the qualityScore
-//     */
-//    public int getQualityScore() {
-//        return qualityScore;
-//    }
-//
-//    /**
-//     * @param qualityScore the qualityScore to set
-//     */
-//    public void setQualityScore(int qualityScore) {
-//        this.qualityScore = qualityScore;
-//    }
-
-
-    public String getQualityScore() {
+    /**
+     * @return the qualityScore
+     */
+    public int getQualityScore() {
         return qualityScore;
     }
 
-    public void setQualityScore(String qualityScore) {
+    /**
+     * @param qualityScore the qualityScore to set
+     */
+    public void setQualityScore(int qualityScore) {
         this.qualityScore = qualityScore;
     }
 
     /**
      * @return the salesCount
      */
-    public double getSalesCount() {
+    public int getSalesCount() {
         return salesCount;
     }
 
     /**
      * @param salesCount the salesCount to set
      */
-    public void setSalesCount(double salesCount) {
+    public void setSalesCount(int salesCount) {
         this.salesCount = salesCount;
     }
 
-//    /**
-//     * @return the mobile
-//     */
-//    public boolean isMobile() {
-//        return mobile;
-//    }
-//
-//    /**
-//     * @param mobile the mobile to set
-//     */
-//    public void setMobile(boolean mobile) {
-//        this.mobile = mobile;
-//    }
-
-
-    public String getDevice() {
-        return device;
+    /**
+     * @return the mobile
+     */
+    public boolean isMobile() {
+        return mobile;
     }
 
-    public void setDevice(String device) {
-        this.device = device;
+    /**
+     * @param mobile the mobile to set
+     */
+    public void setMobile(boolean mobile) {
+        this.mobile = mobile;
     }
+
 
     public int getHourOfDay() {
         return hourOfDay;
@@ -317,7 +281,6 @@ public class GoogleKeywordStat {
     public void setHourOfDay(int hourOfDay) {
         this.hourOfDay = hourOfDay;
     }
-
 
     @Override
     public String toString() {
@@ -328,14 +291,20 @@ public class GoogleKeywordStat {
                 ", maxCpc=" + maxCpc +
                 ", imps=" + imps +
                 ", clicks=" + clicks +
+                ", ctr=" + ctr +
                 ", cost=" + cost +
                 ", position=" + position +
+                ", convRate=" + convRate +
+                ", reportDate=" + reportDate +
+                ", lastPosition=" + lastPosition +
+                ", lastImps=" + lastImps +
                 ", network='" + network + '\'' +
                 ", firstPageCpc=" + firstPageCpc +
                 ", salesCount=" + salesCount +
                 ", revenue=" + revenue +
-                ", qualityScore='" + qualityScore + '\'' +
-                ", device='" + device + '\'' +
+                ", qualityScore=" + qualityScore +
+                ", mobile=" + mobile +
+                ", hourOfDay=" + hourOfDay +
                 '}';
     }
 }

@@ -1,7 +1,7 @@
 package com.vividseats.google.reports;
 
 import com.opencsv.bean.CsvToBeanBuilder;
-import com.vividseats.google.entities.GoogleKeywordStat;
+import com.vividseats.google.dto.GoogleKeywordDTO;
 import org.springframework.stereotype.Component;
 
 import java.io.*;
@@ -11,14 +11,12 @@ import java.util.zip.GZIPInputStream;
 @Component
 public class ReportParser {
 
-    public void parseReport(String reportFile) throws IOException {
+    public List<GoogleKeywordDTO> parseReport(String reportFile) throws IOException {
         try (BufferedReader br = new BufferedReader(new InputStreamReader(new GZIPInputStream(new FileInputStream(reportFile))))) {
-            List<GoogleKeywordStat> treeParser = new CsvToBeanBuilder<GoogleKeywordStat>(br)
-                    .withType(GoogleKeywordStat.class)
+            return new CsvToBeanBuilder<GoogleKeywordDTO>(br)
+                    .withType(GoogleKeywordDTO.class)
                     .build()
                     .parse();
-
-            treeParser.forEach(System.out::println);
         }
     }
 }
