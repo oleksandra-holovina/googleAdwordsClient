@@ -75,7 +75,7 @@ public class ReportGenerator {
                 adWordsServices.getUtility(session, ReportDownloaderInterface.class);
 
         ReportDownloadResponse response =
-                reportDownloader.downloadReport(query.toString(), DownloadFormat.CSV);
+                reportDownloader.downloadReport(query.toString(), DownloadFormat.GZIPPED_CSV);
         response.saveToFile(reportFile);
 
         System.out.printf("Report successfully downloaded to: %s%n", reportFile);

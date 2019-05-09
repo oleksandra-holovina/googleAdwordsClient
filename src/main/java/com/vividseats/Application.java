@@ -23,14 +23,14 @@ public class Application {
 
         ReportParser reportParser = context.getBean(ReportParser.class);
         try {
-            reportParser.parseReport("/Users/oleksandra.holovina/Desktop/VividSeats/testGoogle/report.csv");
-        } catch (FileNotFoundException e) {
+            reportParser.parseReport("/Users/oleksandra.holovina/Desktop/VividSeats/testGoogle/report.gzip");
+        } catch (IOException e) {
             e.printStackTrace();
         }
 
 //        ReportGenerator reportGenerator = context.getBean(ReportGenerator.class);
 //        try {
-//            reportGenerator.generateAndSaveKeywordPerformanceReport("/Users/oleksandra.holovina/Desktop/VividSeats/testGoogle/report.csv");
+//            reportGenerator.generateAndSaveKeywordPerformanceReport("/Users/oleksandra.holovina/Desktop/VividSeats/testGoogle/report.gzip");
 //        } catch (ReportDownloadResponseException | ReportException | IOException e) {
 //            System.err.println("Report generation failed");
 //        }
