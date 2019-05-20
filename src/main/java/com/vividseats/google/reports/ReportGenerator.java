@@ -15,6 +15,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.io.IOException;
+import java.io.InputStream;
 
 @Component
 public class ReportGenerator {
@@ -43,41 +44,50 @@ public class ReportGenerator {
                         .during(ReportDefinitionDateRangeType.LAST_7_DAYS)
                         .build();
 
-        downloadReport(reportFile, query);
+        ReportDownloadResponse response = getKeywordReportDownloadResponse(query);
+        response.saveToFile(reportFile);
+
+        System.out.printf("Report successfully downloaded to: %s%n", reportFile);
     }
 
     public void generateAndSaveKeywordPerformanceReport(String reportFile) throws ReportDownloadResponseException, ReportException, IOException {
-        ReportQuery query =
-                new ReportQuery.Builder()
-                        .fields(
-                                "AdGroupId", "Id", "Criteria", "Impressions", "Clicks", "Cost", "AveragePosition",
-                                "CpcBid", "FirstPageCpc", "Conversions", "ConversionValue", "QualityScore", "Device", "AdNetworkType2")
-                        .from(ReportDefinitionReportType.KEYWORDS_PERFORMANCE_REPORT)
-                        .where("Status").in("ENABLED", "PAUSED")
-                        .during(ReportDefinitionDateRangeType.LAST_7_DAYS)
-                        .build();
+        ReportDownloadResponse response = getKeywordReportDownloadResponse(getKeywordReportQuery());
+        response.saveToFile(reportFile);
 
-        downloadReport(reportFile, query);
+        System.out.printf("Report successfully downloaded to: %s%n", reportFile);
     }
 
-    private void downloadReport(String reportFile, ReportQuery query) throws ReportException, ReportDownloadResponseException, IOException {
+    public InputStream generateAndSaveKeywordPerformanceReport() throws ReportDownloadResponseException, ReportException {
+        ReportDownloadResponse response = getKeywordReportDownloadResponse(getKeywordReportQuery());
+        return response.getInputStream();
+    }
+
+    private ReportQuery getKeywordReportQuery() {
+        return new ReportQuery.Builder()
+                .fields(
+
+                        "AdGroupId", "Id", "Criteria", "Impressions", "Clicks", "Cost", "AveragePosition",
+                        "CpcBid", "FirstPageCpc", "Conversions", "ConversionValue", "QualityScore", "Device", "AdNetworkType2")
+                .from(ReportDefinitionReportType.KEYWORDS_PERFORMANCE_REPORT)
+                .where("Status").in("ENABLED", "PAUSED")
+                .during(ReportDefinitionDateRangeType.TODAY)
+                .build();
+    }
+
+
+    private ReportDownloadResponse getKeywordReportDownloadResponse(ReportQuery query) throws ReportException, ReportDownloadResponseException {
         ReportingConfiguration reportingConfiguration =
                 new ReportingConfiguration.Builder()
                         .skipReportHeader(true)
                         .skipColumnHeader(false)
                         .skipReportSummary(true)
-                        // Set to false to exclude rows with zero impressions.
-                        .includeZeroImpressions(true)
+                        .includeZeroImpressions(false)
                         .build();
         session.setReportingConfiguration(reportingConfiguration);
 
         ReportDownloaderInterface reportDownloader =
                 adWordsServices.getUtility(session, ReportDownloaderInterface.class);
 
-        ReportDownloadResponse response =
-                reportDownloader.downloadReport(query.toString(), DownloadFormat.GZIPPED_CSV);
-        response.saveToFile(reportFile);
-
-        System.out.printf("Report successfully downloaded to: %s%n", reportFile);
+        return reportDownloader.downloadReport(query.toString(), DownloadFormat.GZIPPED_CSV);
     }
 }

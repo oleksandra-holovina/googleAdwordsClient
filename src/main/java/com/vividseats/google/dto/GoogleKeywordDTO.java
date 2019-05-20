@@ -10,7 +10,7 @@ public class GoogleKeywordDTO {
     @CsvBindByName(column = "Keyword")
     private String keyword;
     @CsvBindByName(column = "Max. CPC")
-    private double maxCpc;
+    private String maxCpc;
     @CsvBindByName(column = "Impressions")
     private double impressions;
     @CsvBindByName(column = "Clicks")
@@ -56,11 +56,11 @@ public class GoogleKeywordDTO {
         this.keyword = keyword;
     }
 
-    public double getMaxCpc() {
+    public String getMaxCpc() {
         return maxCpc;
     }
 
-    public void setMaxCpc(double maxCpc) {
+    public void setMaxCpc(String maxCpc) {
         this.maxCpc = maxCpc;
     }
 

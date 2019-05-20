@@ -19,4 +19,13 @@ public class ReportParser {
                     .parse();
         }
     }
+
+    public List<GoogleKeywordDTO> parseReport(InputStream inputStream) throws IOException {
+        try (BufferedReader br = new BufferedReader(new InputStreamReader(new GZIPInputStream(inputStream)))) {
+            return new CsvToBeanBuilder<GoogleKeywordDTO>(br)
+                    .withType(GoogleKeywordDTO.class)
+                    .build()
+                    .parse();
+        }
+    }
 }

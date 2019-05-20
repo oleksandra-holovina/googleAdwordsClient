@@ -1,5 +1,7 @@
 package com.vividseats;
 
+import com.google.api.ads.adwords.lib.utils.ReportDownloadResponseException;
+import com.google.api.ads.adwords.lib.utils.ReportException;
 import com.vividseats.google.services.GoogleReportManager;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -15,9 +17,10 @@ public class Application {
 
         GoogleReportManager reportManager = context.getBean(GoogleReportManager.class);
         try {
-            reportManager.writeToReportDb("/Users/oleksandra.holovina/Desktop/VividSeats/testGoogle/report.gzip");
-        } catch (IOException e) {
+            reportManager.printKeywordReport();
+        } catch (IOException | ReportDownloadResponseException | ReportException e) {
             System.err.println("Something went wrong with report");
+            e.printStackTrace();
         }
     }
 }
